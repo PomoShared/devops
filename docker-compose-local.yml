@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  web:
+    container_name: pomo_web
+    build:
+      context: ./dockerfile-dev/
+      dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes_from:
+      - app
+    ports:
+      - 8080:80
+  postgres:
+    container_name: pomo_postgres
+    hostname: postgres 
+    image: postgres:9.4
+    container_name: pomo_postgres
+    environment:
+      - POSTGRES_DB=pomoshare
+      - POSTGRES_PASSWORD=estiloSoft@123
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/:/var/lib/postgresql/data
+    restart: always
+  app:
+    container_name: app
+    build:
+      context: ./dockerfile-dev/
+      dockerfile: app.dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=5432"
+      - "DB_HOST=pomoshare"
+   
+
+
