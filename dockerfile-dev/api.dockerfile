@@ -7,6 +7,12 @@ RUN apt-get update && \
   && docker-php-ext-enable mcrypt  \
   && docker-php-ext-install pdo_pgsql  \
   && docker-php-ext-install zip 
-RUN apt-get install -y build-essential libpng-dev libjpeg-dev libfreetype6-dev
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN docker-php-source extract \
+    && git clone --branch php7 https://github.com/php-memcached-dev/php-memcached.git /usr/src/php/ext/memcached/ \
+    && docker-php-ext-configure memcached \
+    && docker-php-ext-install memcached \
+    && docker-php-source delete \
+    && rm -rf /tmp/* /var/cache/apk/*

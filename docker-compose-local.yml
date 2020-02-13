@@ -7,8 +7,8 @@ services:
       context: ./dockerfile-dev/
       dockerfile: web.dockerfile
     working_dir: /var/www
-    volumes_from:
-      - app
+    #volumes_from:
+     # - pomo-api
     ports:
       - 8080:80
   postgres:
@@ -24,14 +24,14 @@ services:
     volumes:
       - ./data/:/var/lib/postgresql/data
     restart: always
-  app:
-    container_name: app
+  api:
+    container_name: pomo_api
     build:
       context: ./dockerfile-dev/
-      dockerfile: app.dockerfile
+      dockerfile: api.dockerfile
     working_dir: /var/www
     volumes:
-      - ./:/var/www
+      - ../pomo-api:/var/www
     environment:
       - "DB_PORT=5432"
       - "DB_HOST=pomoshare"
