@@ -7,8 +7,6 @@ services:
       context: ./dockerfile-dev/
       dockerfile: web.dockerfile
     working_dir: /var/www
-    #volumes_from:
-     # - pomo-api
     ports:
       - 8080:80
   postgres:
@@ -35,6 +33,3 @@ services:
     environment:
       - "DB_PORT=5432"
       - "DB_HOST=pomoshare"
-   
-
-
